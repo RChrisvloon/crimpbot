@@ -6,7 +6,7 @@ module.exports = {
 		// Check if interaction is a slash command (not a button press or message command)
 		if (!interaction.isChatInputCommand()) return;
 
-		// Find the corresponding command from the collection of commands (interaction.client.commands)
+		// Find the corresponding command from the collection of commands
 		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) {
