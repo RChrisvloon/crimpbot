@@ -5,6 +5,7 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { Player } = require('discord-player');
 const { YoutubeiExtractor } = require('discord-player-youtubei');
 const ffmpeg = require('ffmpeg-static');
+const { registerPlayerEvents } = require('./events/playerEvents');
 
 // Initialize the Discord client with necessary intents
 const client = new Client({
@@ -27,6 +28,8 @@ client.player = new Player(client, {
 	},
 	ffmpegPath: ffmpeg.path,
 });
+
+registerPlayerEvents(client.player);
 
 // Load default extractors and register YoutubeiExtractor
 (async () => {
