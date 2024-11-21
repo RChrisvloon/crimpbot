@@ -6,13 +6,15 @@ module.exports = {
 		.setName('stop')
 		.setDescription('Stops the music and clears the queue'),
 	async execute(interaction) {
+		await interaction.deferReply();
+
 		const queue = useQueue(interaction.guild.id);
 
-		if (!queue || !queue.playing) {
-			return interaction.reply('There is no song currently playing!');
+		if (!queue || !queue.currentTrack) {
+			return void interaction.followUp({ content: '❌ | No music is being played!' });
 		}
 
-		queue.destroy();
-		await interaction.reply('Stopped the music and cleared the queue!');
+		queue.node.stop();
+		return void interaction.followUp({ content: '✅ | Stopped the music and cleared the queue!' });
 	},
 };
