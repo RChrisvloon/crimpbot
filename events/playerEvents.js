@@ -69,6 +69,17 @@ module.exports.registerPlayerEvents = (player) => {
 	});
 
 	player.events.on('error', (queue, error) => {
-		console.log(`[${queue.guild.name}] Error emitted from the connection: ${error.message}`);
+		console.error(`[${queue.guild.name}] Error emitted from the connection: ${error.message}`);
+		queue.metadata.channel.send({
+			content: `❌ | An error occurred: ${error.message}`,
+		});
+	});
+
+	player.events.on('playerError', (queue, error) => {
+		console.error(`[${queue.guild.name}] Player error: ${error.message}`);
+		queue.metadata.channel.send({
+			content: `❌ | A player error occurred: ${error.message}. Skipping this track...`,
+		});
+		queue.node.skip();
 	});
 };
