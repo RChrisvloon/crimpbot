@@ -14,9 +14,17 @@ module.exports.registerPlayerEvents = (player) => {
 	player.events.on('playerStart', (queue, track) => {
 		const embed = new EmbedBuilder()
 			.setTitle('Now Playing')
-			.setDescription(`▶ | Started playing: **${track.title}**`)
 			.setColor('#00FF00')
-			.setTimestamp();
+			.setTimestamp()
+			.setThumbnail(track.thumbnail)
+			.addFields(
+				{ name: '│ Song', value: `[${track.title}](${track.url})`, inline: false },
+				{ name: '│ Artist', value: `${track.author}   │   ${track.duration}`, inline: false }
+			)
+			.setFooter({
+				text: `Requested by ${track.requestedBy?.username || 'Unknown'}`,
+				iconURL: track.requestedBy?.displayAvatarURL?.() || undefined,
+			});
 
 		queue.metadata.channel.send({ embeds: [embed] });
 	});

@@ -57,15 +57,7 @@ module.exports = {
 					},
 				});
 
-				// Send a follow-up message indicating that the track is being loaded
-				const followUpMessage = await interaction.followUp({
-					content: `⏱ | Loading your ${searchResult.playlist ? 'playlist' : 'track'}...`,
-				});
-
-				// Remove the message after 2 seconds
-				setTimeout(() => {
-					followUpMessage.delete().catch(console.error);
-				}, 2000);
+				await interaction.deleteReply();
 			} catch (error) {
 				await interaction.editReply({
 					content: 'An error has occurred!',
